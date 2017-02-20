@@ -1,0 +1,196 @@
+Building configuration...
+
+Current configuration : 2970 bytes
+!
+version 12.4
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+!
+!
+!
+!
+username Bubai password 0 Bubai
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 1.1.1.40 255.255.255.0
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/0/0
+ no ip address
+ encapsulation frame-relay
+!
+interface Serial0/0/0.103 point-to-point
+ ip address 192.168.103.103 255.255.255.0
+ frame-relay interface-dlci 103
+!
+interface Serial0/0/0.152 point-to-point
+ ip address 192.168.152.102 255.255.255.0
+ frame-relay interface-dlci 152
+!
+interface Serial0/0/0.161 point-to-point
+ ip address 192.168.161.102 255.255.255.0
+ frame-relay interface-dlci 161
+!
+interface Serial0/0/0.170 point-to-point
+ ip address 192.168.170.102 255.255.255.0
+ frame-relay interface-dlci 170
+!
+interface Serial0/0/0.303 point-to-point
+ no ip address
+ shutdown
+!
+interface Serial0/0/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface FastEthernet0/1/0
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/1/1
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/1/2
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/1/3
+ switchport mode access
+ shutdown
+!
+interface Serial0/2/0
+ bandwidth 64
+ ip address 192.168.50.2 255.255.255.0
+ ip nat inside
+ clock rate 64000
+!
+interface Serial0/2/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Serial0/3/0
+ no ip address
+ ipv6 ospf cost 781
+ clock rate 2000000
+ shutdown
+!
+interface Serial1/0
+ bandwidth 64
+ ip address 192.168.58.2 255.255.255.0
+ ip nat inside
+ ipv6 ospf cost 781
+ clock rate 64000
+!
+interface Serial1/1
+ no ip address
+ ipv6 ospf cost 781
+ clock rate 2000000
+ shutdown
+!
+interface Serial1/2
+ no ip address
+ ipv6 ospf cost 781
+ clock rate 2000000
+ shutdown
+!
+interface Serial1/3
+ no ip address
+ ipv6 ospf cost 781
+ clock rate 2000000
+ shutdown
+!
+interface Serial1/4
+ no ip address
+ ipv6 ospf cost 781
+ clock rate 2000000
+ shutdown
+!
+interface Serial1/5
+ no ip address
+ ipv6 ospf cost 781
+ clock rate 2000000
+ shutdown
+!
+interface Serial1/6
+ no ip address
+ ipv6 ospf cost 781
+ clock rate 2000000
+ shutdown
+!
+interface Serial1/7
+ no ip address
+ ipv6 ospf cost 781
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router eigrp 100
+ redistribute ospf 1 
+ network 192.168.50.0
+ network 192.168.58.0
+ network 192.168.103.0
+ network 192.168.152.0
+ network 192.168.161.0
+ network 172.22.0.0
+ network 172.23.0.0
+ no auto-summary
+!
+router ospf 1
+ log-adjacency-changes
+ redistribute eigrp 100 subnets 
+ network 192.168.103.0 0.0.0.255 area 10
+!
+ip nat inside source list 40 interface FastEthernet0/0 overload
+ip classless
+ip route 0.0.0.0 0.0.0.0 FastEthernet0/0 
+!
+!
+!
+!
+!
+!
+!
+logging 192.168.100.6
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login local
+!
+!
+ntp server 192.168.100.6 key 0
+!
+end
